@@ -727,45 +727,69 @@ const ArenaGame = ({ userSession, userData }) => {
                                         <div className="text-2xl">🏆</div>
                                         <div>
                                             <h4 className="text-xs font-black text-purple-400 uppercase tracking-widest">HALL_OF_FAME</h4>
-                                            <p className="text-[10px] text-gray-400">Top ranked victories by payout.</p>
+                                            <p className="text-[10px] text-gray-400">Top Arena Champions by total wins.</p>
                                         </div>
                                     </div>
-                                    {matches.filter(m => m.status === 'Completed' && m.winner).length === 0 ? (
+                                    {matches.filter(m => m.status === 'Completed').length === 0 ? (
                                         <div className="text-center py-8 text-[10px] text-gray-600 font-bold uppercase tracking-widest">NO_CHAMPIONS_YET</div>
                                     ) : (
-                                        matches
-                                            .filter(m => m.status === 'Completed' && m.winner)
-                                            .sort((a, b) => b.wager - a.wager) // Sort by highest wager
-                                            .map((m, index) => {
-                                                const isMe = userData?.profile?.stxAddress?.testnet === m.challenger || userData?.profile?.stxAddress?.testnet === m.opponent;
-                                                const winnerAddr = m.winner.value || m.winner;
-                                                const isChallengerWin = winnerAddr === m.challenger;
+                                        (() => {
+                                            const leaderboard = matches
+                                                .filter(m => m.status === 'Completed' && m.winner)
+                                                .reduce((acc, m) => {
+                                                    const winner = m.winner.value || m.winner;
+                                                    if (!acc[winner]) acc[winner] = { address: winner, wins: 0 };
+                                                    acc[winner].wins++;
+                                                    return acc;
+                                                }, {});
+
+                                            const sortedLeaderboard = Object.values(leaderboard).sort((a, b) => b.wins - a.wins);
+
+                                            return sortedLeaderboard.map((player, index) => {
+                                                const isMe = userData?.profile?.stxAddress?.testnet === player.address;
+                                                const isAgent = player.address === 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM' || player.address === 'ST3273FDNHADRB84GK2C0GWQQW9WXZGR1V5GAR0MA';
+
+                                                let rankColor = 'bg-white/5 text-gray-400';
+                                                let rankBorder = 'border-white/10';
+
+                                                if (index === 0) { rankColor = 'bg-yellow-500 text-black'; rankBorder = 'border-yellow-500'; }
+                                                if (index === 1) { rankColor = 'bg-gray-300 text-black'; rankBorder = 'border-gray-300'; }
+                                                if (index === 2) { rankColor = 'bg-orange-700 text-white'; rankBorder = 'border-orange-700'; }
 
                                                 return (
-                                                    <div key={m.id} className="bg-white/5 border border-white/5 p-2 rounded-sm flex items-center justify-between group hover:border-purple-500/30 transition-all">
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="text-xs font-black text-yellow-500 w-4">#{index + 1}</div>
-                                                            <div className="text-xl opacity-80">{GAME_TYPES.find(gt => gt.id === m.gameType)?.icon || '🎮'}</div>
+                                                    <div key={player.address} className={`bg-white/5 border ${isMe ? 'border-purple-500/50' : 'border-white/5'} p-3 rounded-md flex items-center justify-between group hover:border-purple-500/30 transition-all mb-2`}>
+                                                        <div className="flex items-center gap-4">
+                                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-black border ${rankBorder} ${rankColor} shadow-lg`}>
+                                                                {index + 1}
+                                                            </div>
                                                             <div>
-                                                                <div className="text-[10px] font-black text-white flex items-center gap-2">
-                                                                    <span className="text-purple-400">Match #{m.id}</span>
-                                                                    <span className={isMe && winnerAddr === userData?.profile?.stxAddress?.testnet ? 'text-green-400' : 'text-gray-300'}>
-                                                                        {isMe && winnerAddr === userData?.profile?.stxAddress?.testnet ? 'YOU' : `${winnerAddr.slice(0, 4)}...${winnerAddr.slice(-4)}`}
+                                                                <div className="flex items-center gap-2">
+                                                                    <span className={`text-xs font-black ${isMe ? 'text-green-400' : 'text-white'}`}>
+                                                                        {isMe ? 'YOU' : `${player.address.slice(0, 6)}...${player.address.slice(-4)}`}
                                                                     </span>
+                                                                    {isAgent && (
+                                                                        <span className="text-[8px] bg-purple-600 text-white px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">AGENT</span>
+                                                                    )}
                                                                 </div>
                                                                 <div className="text-[8px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">
-                                                                    {isChallengerWin ? 'CHALLENGER_VICTORY' : 'OPPONENT_VICTORY'}
+                                                                    VERIFIED_ARENA_CHAMPION
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="text-right">
-                                                            <div className="text-[10px] font-black text-green-500">+{(m.wager * 1.96 / 1000000).toFixed(2)} STX</div>
-                                                            <div className="text-[7px] text-gray-600 font-bold uppercase tracking-tighter">PAYOUT_CONFIRMED</div>
+                                                            <div className="text-xl font-black text-white">{player.wins}</div>
+                                                            <div className="text-[7px] text-gray-600 font-bold uppercase tracking-tighter">TOTAL_WINS</div>
                                                         </div>
                                                     </div>
                                                 );
-                                            })
+                                            });
+                                        })()
                                     )}
+                                    <div className="mt-4 pt-4 border-t border-white/5 border-dashed text-center">
+                                        <p className="text-[8px] text-gray-600 font-mono">
+                                            RANKING IS CALCULATED IN REAL-TIME BASED ON THE {matches.length} MOST RECENT MATCHES.
+                                        </p>
+                                    </div>
                                 </div>
                             ) : null}
 
