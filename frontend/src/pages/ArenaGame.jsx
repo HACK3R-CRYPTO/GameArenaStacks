@@ -83,7 +83,7 @@ const getMoveOptions = (gameType) => {
         { value: 1, label: 'PAPER', icon: '✋' },
         { value: 2, label: 'SCISSORS', icon: '✌️' }
     ];
-    if (gameType === 1) return [1, 2, 3, 4, 5, 6].map(v => ({ value: v - 1, label: v.toString(), icon: '🎲' }));
+    if (gameType === 1) return []; // Dice has custom UI
     if (gameType === 2) return [
         { value: 0, label: 'HEADS', icon: '🪙' },
         { value: 1, label: 'TAILS', icon: '🪙' }
@@ -651,16 +651,28 @@ const ArenaGame = ({ userSession, userData }) => {
 
                                             {/* Inline Move Picker for Active Match - only if I haven't played */}
                                             {m.status === 'Active' && !isPending && myMove === undefined && (
-                                                <div className="grid grid-cols-3 gap-1 pt-2 border-t border-white/5">
-                                                    {getMoveOptions(m.gameType).map(opt => (
+                                                <div className={`${m.gameType === 1 ? 'flex' : 'grid grid-cols-3'} gap-1 pt-2 border-t border-white/5`}>
+                                                    {m.gameType === 1 ? (
                                                         <button
-                                                            key={opt.value}
-                                                            onClick={() => handlePlayMove(m.id, opt.value)}
-                                                            className="bg-black hover:bg-white/5 text-[8px] font-bold py-1.5 rounded border border-white/5 text-gray-400 flex items-center justify-center gap-1 transition-colors"
+                                                            onClick={() => {
+                                                                const roll = Math.floor(Math.random() * 6);
+                                                                handlePlayMove(m.id, roll);
+                                                            }}
+                                                            className="w-full bg-purple-900/40 hover:bg-purple-600 text-purple-200 hover:text-white text-[9px] font-black py-2 rounded-sm border border-purple-500/30 flex items-center justify-center gap-2 transition-all shadow-[0_0_10px_rgba(147,51,234,0.15)] uppercase tracking-widest group-hover:shadow-[0_0_20px_rgba(147,51,234,0.4)]"
                                                         >
-                                                            <span className="opacity-50">{opt.icon}</span> {opt.label}
+                                                            <span className="text-lg animate-bounce">🎲</span> ROLL_DICE_RNG
                                                         </button>
-                                                    ))}
+                                                    ) : (
+                                                        getMoveOptions(m.gameType).map(opt => (
+                                                            <button
+                                                                key={opt.value}
+                                                                onClick={() => handlePlayMove(m.id, opt.value)}
+                                                                className="bg-black hover:bg-white/5 text-[8px] font-bold py-1.5 rounded border border-white/5 text-gray-400 flex items-center justify-center gap-1 transition-colors"
+                                                            >
+                                                                <span className="opacity-50">{opt.icon}</span> {opt.label}
+                                                            </button>
+                                                        ))
+                                                    )}
                                                 </div>
                                             )}
                                         </div>
