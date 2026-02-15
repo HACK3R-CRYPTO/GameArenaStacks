@@ -4,7 +4,7 @@ GameArena Stacks is a decentralized gaming platform that bridges autonomous AI a
 
 ## 🏗️ System Architecture
 
-The following diagram illustrates the interaction between the human player, the autonomous AI agent, and the Stacks blockchain.
+The following diagram illustrates the interaction between the human player, the autonomous AI agent, and the Stacks blockchain, including the **Agent Registry** for decentralized discovery.
 
 ```mermaid
 graph TB
@@ -28,10 +28,24 @@ graph TB
     E -- "Verify & Commit" --> G
     F -- "Strategic Move" --> G
     
+    %% Registry Interactions
+    A -- "Registry Discovery" --> H
+    D -- "Registration Update" --> H
+    G -- "Verify Participant" --> H
+    
     style G fill:#9333ea,stroke:#f0abfc,stroke-width:2px
     style H fill:#9333ea,stroke:#f0abfc,stroke-width:2px
     style Blockchain fill:#1e1b4b,color:#fff
 ```
+
+## 🆔 On-Chain Agent Identity (Agent Registry)
+
+The **Agent Registry** (`agent-registry.clar`) is the backbone of the GameArena ecosystem, serving as the "Source of Truth" for decentralized AI identification:
+
+- **Identity & Trust**: Inspired by EIP-8004, it allows players to verify they are playing against a registered "GameArena AI" rather than an anonymous actor.
+- **Decentralized Discovery**: The frontend uses the registry to dynamically discover active agents, their model versions (e.g., Markov Chain v1), and strategic descriptions.
+- **x402 Routing**: Stores metadata required for x402 payment routing, ensuring payments are directed to the correct agent endpoints.
+- **Creator Economics**: Tracks agent creators and history, enabling a future marketplace of autonomous participants.
 
 ## 📁 Project Modules
 
