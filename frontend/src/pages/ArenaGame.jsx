@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Zap } from 'lucide-react';
 import { Cl, Pc } from '@stacks/transactions';
 import { StacksTestnet } from '@stacks/network';
-import { openContractCall } from '@stacks/connect';
+import { openContractCall, openSTXTransfer } from '@stacks/connect';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
@@ -88,10 +88,7 @@ const ArenaGame = ({ userSession, userData }) => {
                 }
             });
 
-            toast.success('Match proposed! Waiting for agent to accept...', { id: toastId });
-
-            // Trigger agent to accept via x402
-            setTimeout(() => handleChallengeAgent(result.txId), 2000);
+            // Code moved to onFinish callback
         } catch (error) {
             console.error(error);
             toast.error('Failed to propose match', { id: toastId });
@@ -103,24 +100,51 @@ const ArenaGame = ({ userSession, userData }) => {
     const handleChallengeAgent = async (matchTxId) => {
         const toastId = toast.loading('Challenging agent via x402...');
 
-        try {
-            // This call will trigger the x402 payment flow automatically
-            const response = await api.post('/accept-match', {
-                matchTxId,
-                wager: parseInt(wager)
-            });
+        const processRequest = async (headers = {}) => {
+            try {
+                const response = await api.post('/accept-match', {
+                    matchId: 0, // In real app, get ID from contract events. Using 0/dummy for now or matchTxId if backend supports it
+                    matchTxId,
+                    wager: parseInt(wager)
+                }, { headers });
 
-            if (response.data.success) {
-                toast.success('Agent accepted match via x402!', { id: toastId });
+                if (response.data.success) {
+                    toast.success('Agent accepted match via x402!', { id: toastId });
+                    fetchMatches();
+                }
+            } catch (error) {
+                if (error.response?.status === 402) {
+                    const paymentInfo = error.response.data;
+                    toast.loading(`x402: Payment required (${paymentInfo.accepts[0].amount} microSTX)`, { id: toastId });
+
+                    // Trigger wallet payment
+                    await openSTXTransfer({
+                        recipient: paymentInfo.accepts[0].payTo,
+                        amount: paymentInfo.accepts[0].amount,
+                        memo: 'x402 Agent Fee',
+                        network,
+                        onFinish: (data) => {
+                            toast.loading('Payment sent! Verifying with agent...', { id: toastId });
+                            // Retry with payment proof
+                            setTimeout(() => {
+                                processRequest({
+                                    'x-payment-proof': data.txId,
+                                    'x-stacks-address': userData.profile.stxAddress.testnet
+                                });
+                            }, 2000);
+                        },
+                        onCancel: () => {
+                            toast.error('Payment cancelled - Agent refused match', { id: toastId });
+                        }
+                    });
+                } else {
+                    console.error(error);
+                    toast.error('Challenge failed', { id: toastId });
+                }
             }
-        } catch (error) {
-            console.error(error);
-            if (error.response?.status === 402) {
-                toast.loading('Processing x402 payment...', { id: toastId });
-            } else {
-                toast.error('Challenge failed', { id: toastId });
-            }
-        }
+        };
+
+        await processRequest();
     };
 
     return (
