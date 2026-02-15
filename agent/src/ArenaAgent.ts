@@ -30,7 +30,7 @@ const NETWORK_TYPE = process.env.NETWORK_TYPE || 'testnet'; // 'mainnet' or 'tes
 const network = NETWORK_TYPE === 'mainnet' ? new StacksMainnet() : new StacksTestnet();
 const AGENT_ADDRESS = getAddressFromPrivateKey(PRIVATE_KEY, NETWORK_TYPE === 'mainnet' ? TransactionVersion.Mainnet : TransactionVersion.Testnet);
 
-const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || 'ST3V7NY32G2T67PVPBP3WVC1B228D7N2MCCAWW5F9';
 const CONTRACT_NAME = 'arena-platform';
 
 const PORT = process.env.PORT || 3000;
