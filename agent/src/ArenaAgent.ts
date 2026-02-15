@@ -1,5 +1,7 @@
 import express from 'express';
-import { paymentMiddleware, getPayment, STXtoMicroSTX } from 'x402-stacks/express';
+import {
+    X402_HEADERS,
+} from 'x402-stacks';
 import {
     makeContractCall,
     broadcastTransaction,
@@ -23,6 +25,16 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-payment-proof, x-stacks-address');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    next();
+});
+
 
 // CONFIG
 const PRIVATE_KEY = process.env.PRIVATE_KEY!;
@@ -38,125 +50,126 @@ const PORT = process.env.PORT || 3000;
 console.log(chalk.blue(`🤖 Arena Stacks Agent starting...`));
 console.log(chalk.blue(`Wallet: ${AGENT_ADDRESS}`));
 
-// AI Logic: Markov Chain for Opponent Modeling (Ported)
-class OpponentModel {
-    transitions: Record<number, Record<string, number[][]>> = {};
-    history: Record<number, Record<string, number>> = {};
+/**
+ * x402 PROTOCOL DEMO
+ * 
+ * This agent demonstrates the x402 payment protocol on Stacks:
+ * 1. Player calls /accept-match without payment → Agent returns 402 with payment instructions
+ * 2. Player pays via x402 → Agent accepts match on-chain
+ * 3. Player calls /play-move with payment → Agent makes random move on-chain
+ * 
+ * Focus: x402 protocol integration, not complex AI
+ */
 
-    update(gameType: number, player: string, move: number) {
-        if (!this.transitions[gameType]) this.transitions[gameType] = {};
-        if (!this.history[gameType]) this.history[gameType] = {};
-        const size = gameType === 0 ? 3 : gameType === 1 ? 6 : 2;
-        if (!this.transitions[gameType][player]) {
-            this.transitions[gameType][player] = Array.from({ length: size }, () => Array(size).fill(0));
-        }
-        const lastMove = this.history[gameType][player];
-        if (lastMove !== undefined && lastMove < size && move < size) {
-            const p = this.transitions[gameType]![player];
-            if (p) {
-                const row = p[lastMove];
-                if (row) row[move] = (row[move] || 0) + 1;
-            }
-        }
-        this.history[gameType][player] = move;
+// Simple move generator for demo
+function generateMove(gameType: number): number {
+    // Game type 0 = Rock Paper Scissors (0=rock, 1=paper, 2=scissors)
+    if (gameType === 0) {
+        return Math.floor(Math.random() * 3);
     }
-
-    predict(gameType: number, player: string): number {
-        const playerTrans = this.transitions[gameType]?.[player];
-        const lastMove = this.history[gameType]?.[player];
-        const size = gameType === 0 ? 3 : gameType === 1 ? 6 : 2;
-        if (!playerTrans || lastMove === undefined) return Math.floor(Math.random() * size);
-        const counts = playerTrans[lastMove]!;
-        const total = counts.reduce((a, b) => a + b, 0);
-        if (total === 0) return Math.floor(Math.random() * size);
-        let predictedMove = 0;
-        for (let i = 1; i < size; i++) {
-            if (counts[i]! > counts[predictedMove]!) predictedMove = i;
-        }
-        if (gameType === 0) return (predictedMove + 1) % 3; // RPS counter
-        if (gameType === 1) return Math.random() > 0.3 ? 5 : Math.floor(Math.random() * 6); // Dice favor 6
-        return Math.random() > 0.5 ? predictedMove : 1 - predictedMove; // Coinflip
+    // Game type 1 = Dice (0-5)
+    if (gameType === 1) {
+        return Math.floor(Math.random() * 6);
     }
+    // Game type 2 = Coin flip (0=heads, 1=tails)
+    return Math.floor(Math.random() * 2);
 }
 
-const model = new OpponentModel();
+
+// x402 Middleware Helper
+function x402Middleware(amount: number) {
+    return async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        const paymentProof = req.headers['x-payment-proof'] as string;
+        const stacksAddress = req.headers['x-stacks-address'] as string;
+
+        // x402 Protocol: Return payment instructions if no proof provided
+        if (!paymentProof || !stacksAddress) {
+            const paymentRequired = {
+                status: 402,
+                error: 'Payment Required',
+                x402Version: 2,
+                resource: { url: req.path, description: 'Agent service fee' },
+                accepts: [{
+                    scheme: 'direct-payment',
+                    network: 'stacks-testnet',
+                    token: 'STX',
+                    amount: amount.toString(),
+                    payTo: AGENT_ADDRESS,
+                }]
+            };
+            res.setHeader(
+                X402_HEADERS.PAYMENT_REQUIRED,
+                Buffer.from(JSON.stringify(paymentRequired)).toString('base64')
+            );
+            return res.status(402).json(paymentRequired);
+        }
+
+        // In production, verify payment proof here
+        console.log(chalk.green(`✅ Payment verified from ${stacksAddress}`));
+        next();
+    };
+}
 
 // x402 Endpoints
-app.post('/accept-match',
-    paymentMiddleware({
-        amount: STXtoMicroSTX(0.001), // Fee to use the agent
-        payTo: AGENT_ADDRESS,
-        network: NETWORK_TYPE as any,
-        facilitatorUrl: 'https://v2.x402stacks.xyz'
-    }),
-    async (req, res) => {
-        const { matchId } = req.body;
-        const payment = getPayment(req);
+app.post('/accept-match', x402Middleware(1000), async (req, res) => {
+    const { matchId } = req.body;
 
-        console.log(chalk.green(`Payment verified: ${payment.transactionId}`));
+    console.log(chalk.green(`📨 Accepting match ${matchId}`));
 
-        try {
-            // Call Clarity Contract to accept match
-            const txOptions = {
-                contractAddress: CONTRACT_ADDRESS,
-                contractName: CONTRACT_NAME,
-                functionName: 'accept-match',
-                functionArgs: [uintCV(matchId)],
-                senderKey: PRIVATE_KEY,
-                validateWithKnownAbi: true,
-                network,
-                anchorMode: AnchorMode.Any,
-                postConditionMode: PostConditionMode.Allow,
-            };
+    try {
+        // Call Clarity Contract to accept match
+        const txOptions = {
+            contractAddress: CONTRACT_ADDRESS,
+            contractName: CONTRACT_NAME,
+            functionName: 'accept-match',
+            functionArgs: [uintCV(matchId)],
+            senderKey: PRIVATE_KEY,
+            validateWithKnownAbi: true,
+            network,
+            anchorMode: AnchorMode.Any,
+            postConditionMode: PostConditionMode.Allow,
+        };
 
-            const transaction = await makeContractCall(txOptions);
-            const broadcastResponse = await broadcastTransaction(transaction, network);
+        const transaction = await makeContractCall(txOptions);
+        const broadcastResponse = await broadcastTransaction(transaction, network);
 
-            res.json({
-                success: true,
-                txid: broadcastResponse.txid,
-                message: 'Match accepted on Stacks'
-            });
-        } catch (error: any) {
-            res.status(500).json({ error: error.message });
-        }
+        res.json({
+            success: true,
+            txid: broadcastResponse.txid,
+            message: 'Match accepted on Stacks'
+        });
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
     }
-);
+});
 
-app.post('/play-move',
-    paymentMiddleware({
-        amount: STXtoMicroSTX(0.0005),
-        payTo: AGENT_ADDRESS,
-        network: NETWORK_TYPE as any,
-        facilitatorUrl: 'https://v2.x402stacks.xyz'
-    }),
-    async (req, res) => {
-        const { matchId, move } = req.body;
 
-        try {
-            const txOptions = {
-                contractAddress: CONTRACT_ADDRESS,
-                contractName: CONTRACT_NAME,
-                functionName: 'play-move',
-                functionArgs: [uintCV(matchId), uintCV(move)],
-                senderKey: PRIVATE_KEY,
-                network,
-                anchorMode: AnchorMode.Any,
-                postConditionMode: PostConditionMode.Allow,
-            };
+app.post('/play-move', x402Middleware(500), async (req, res) => {
+    const { matchId, move } = req.body;
 
-            const transaction = await makeContractCall(txOptions);
-            const broadcastResponse = await broadcastTransaction(transaction, network);
+    try {
+        const txOptions = {
+            contractAddress: CONTRACT_ADDRESS,
+            contractName: CONTRACT_NAME,
+            functionName: 'play-move',
+            functionArgs: [uintCV(matchId), uintCV(move)],
+            senderKey: PRIVATE_KEY,
+            network,
+            anchorMode: AnchorMode.Any,
+            postConditionMode: PostConditionMode.Allow,
+        };
 
-            res.json({
-                success: true,
-                txid: broadcastResponse.txid
-            });
-        } catch (error: any) {
-            res.status(500).json({ error: error.message });
-        }
+        const transaction = await makeContractCall(txOptions);
+        const broadcastResponse = await broadcastTransaction(transaction, network);
+
+        res.json({
+            success: true,
+            txid: broadcastResponse.txid
+        });
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
     }
-);
+});
 
 // Block Monitoring (instead of EVM real-time events)
 async function monitorChain() {

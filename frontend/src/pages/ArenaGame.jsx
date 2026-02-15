@@ -4,7 +4,6 @@ import { Cl, Pc } from '@stacks/transactions';
 import { StacksTestnet } from '@stacks/network';
 import { request } from '@stacks/connect';
 import axios from 'axios';
-import { setupX402 } from 'x402-stacks/client';
 import { toast } from 'react-hot-toast';
 
 // Testnet Configuration
@@ -28,15 +27,7 @@ const ArenaGame = ({ userSession, userData }) => {
     const [matches, setMatches] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    // Initialize x402 client once userSession is available
-    useEffect(() => {
-        if (userSession) {
-            setupX402(api, {
-                userSession,
-                network: 'testnet'
-            });
-        }
-    }, [userSession]);
+
 
     const fetchBalance = useCallback(async () => {
         if (!userData) return;

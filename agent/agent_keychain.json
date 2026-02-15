@@ -1,0 +1,8 @@
+Need to install the following packages:
+@stacks/cli@7.2.0
+Ok to proceed? (y) 
+npm warn deprecated har-validator@5.1.5: this library is no longer supported
+npm warn deprecated lodash.pick@4.4.0: This package is deprecated. Use destructuring assignment syntax instead.
+npm warn deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+npm warn deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+{"mnemonic":"color cupboard catch survey leader shoulder firm tumble entry lake resemble flash honey error rapid rule napkin hockey chair viable decide episode cool era","keyInfo":{"privateKey":"cc1a5d9041e27cf249d58ca665ec9deccef48f58f6819df1a7cad39d52319d8901","publicKey":"027fb023d34b6d9c0e3a09c964b8f05738b04996d741e687125631b28be1c1e987","address":"ST3273FDNHADRB84GK2C0GWQQW9WXZGR1V5GAR0MA","btcAddress":"myRezX67XTqYzkwM3JeZt7KY5aE45M4F58","wif":"cURT82jYLKiQF6QxRQfeCmjVab7yeTcWMSgdFMc4vJCUG8WNRPdq","index":0}}
