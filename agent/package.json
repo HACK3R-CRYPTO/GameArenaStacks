@@ -5,10 +5,10 @@
   "main": "src/ArenaAgent.ts",
   "type": "module",
   "scripts": {
-    "start": "tsx src/ArenaAgent.ts",
+    "start": "node dist/ArenaAgent.js",
+    "ts-start": "tsx src/ArenaAgent.ts",
     "dev": "nodemon",
-    "build": "tsc",
-    "preview": "node dist/ArenaAgent.js"
+    "build": "tsc"
   },
   "dependencies": {
     "@stacks/transactions": "^6.13.0",
