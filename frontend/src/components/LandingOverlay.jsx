@@ -57,14 +57,6 @@ const LandingOverlay = ({ onEnter }) => {
 
                         <div className="flex gap-4 justify-center text-xs text-gray-500">
                             <a
-                                href="https://nad.fun/tokens/0x2117449eA6630857D4D656D0D2f5e1C689C67777"
-                                target="_blank"
-                                className="text-purple-400 hover:text-purple-300 underline underline-offset-4 font-bold transition-all"
-                            >
-                                BUY_ARENA_TOKEN
-                            </a>
-                            <span>|</span>
-                            <a
                                 href="/ARENA_SKILL.md"
                                 target="_blank"
                                 className="hover:text-purple-400 underline underline-offset-4 decoration-white/20 hover:decoration-purple-400"
@@ -73,11 +65,11 @@ const LandingOverlay = ({ onEnter }) => {
                             </a>
                             <span>|</span>
                             <a
-                                href="https://monad.xyz"
+                                href="https://www.stacks.co"
                                 target="_blank"
                                 className="hover:text-purple-400 underline underline-offset-4 decoration-white/20 hover:decoration-purple-400"
                             >
-                                MONAD_NETWORK
+                                STACKS_NETWORK
                             </a>
                         </div>
                     </div>

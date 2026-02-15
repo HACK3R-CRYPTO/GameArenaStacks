@@ -1,0 +1,31 @@
+id: 0
+name: Testnet deployment
+network: testnet
+stacks-node: https://api.testnet.hiro.so
+bitcoin-node: http://blockstack:blockstacksystem@bitcoind.testnet.stacks.co:18332
+plan:
+  batches:
+  - id: 0
+    transactions:
+    - transaction-type: contract-publish
+      contract-name: traits
+      expected-sender: ST3V7NY32G2T67PVPBP3WVC1B228D7N2MCCAWW5F9
+      cost: 3400
+      path: contracts/traits.clar
+      anchor-block-only: true
+      clarity-version: 2
+    - transaction-type: contract-publish
+      contract-name: agent-registry
+      expected-sender: ST3V7NY32G2T67PVPBP3WVC1B228D7N2MCCAWW5F9
+      cost: 15420
+      path: contracts/agent-registry.clar
+      anchor-block-only: true
+      clarity-version: 2
+    - transaction-type: contract-publish
+      contract-name: arena-platform
+      expected-sender: ST3V7NY32G2T67PVPBP3WVC1B228D7N2MCCAWW5F9
+      cost: 50800
+      path: contracts/arena-platform.clar
+      anchor-block-only: true
+      clarity-version: 2
+    epoch: '2.5'
