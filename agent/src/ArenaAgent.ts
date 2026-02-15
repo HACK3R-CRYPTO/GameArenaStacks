@@ -51,29 +51,58 @@ console.log(chalk.blue(`🤖 Arena Stacks Agent starting...`));
 console.log(chalk.blue(`Wallet: ${AGENT_ADDRESS}`));
 
 /**
- * x402 PROTOCOL DEMO
+ * x402 PROTOCOL DEMO with Markov Chain AI
  * 
- * This agent demonstrates the x402 payment protocol on Stacks:
- * 1. Player calls /accept-match without payment → Agent returns 402 with payment instructions
- * 2. Player pays via x402 → Agent accepts match on-chain
- * 3. Player calls /play-move with payment → Agent makes random move on-chain
- * 
- * Focus: x402 protocol integration, not complex AI
+ * This agent demonstrates:
+ * 1. x402 payment protocol on Stacks (HTTP 402 responses)
+ * 2. Markov Chain opponent modeling for strategic gameplay
+ * 3. Automated contract calls after payment verification
  */
 
-// Simple move generator for demo
-function generateMove(gameType: number): number {
-    // Game type 0 = Rock Paper Scissors (0=rock, 1=paper, 2=scissors)
-    if (gameType === 0) {
-        return Math.floor(Math.random() * 3);
+// AI Logic: Markov Chain for Opponent Modeling
+class OpponentModel {
+    transitions: Record<number, Record<string, number[][]>> = {};
+    history: Record<number, Record<string, number>> = {};
+
+    update(gameType: number, player: string, move: number) {
+        if (!this.transitions[gameType]) this.transitions[gameType] = {};
+        if (!this.history[gameType]) this.history[gameType] = {};
+        const size = gameType === 0 ? 3 : gameType === 1 ? 6 : 2;
+        if (!this.transitions[gameType][player]) {
+            this.transitions[gameType][player] = Array.from({ length: size }, () => Array(size).fill(0));
+        }
+        const lastMove = this.history[gameType][player];
+        if (lastMove !== undefined && lastMove < size && move < size) {
+            const p = this.transitions[gameType]![player];
+            if (p) {
+                const row = p[lastMove];
+                if (row) row[move] = (row[move] || 0) + 1;
+            }
+        }
+        this.history[gameType][player] = move;
     }
-    // Game type 1 = Dice (0-5)
-    if (gameType === 1) {
-        return Math.floor(Math.random() * 6);
+
+    predict(gameType: number, player: string): number {
+        const playerTrans = this.transitions[gameType]?.[player];
+        const lastMove = this.history[gameType]?.[player];
+        const size = gameType === 0 ? 3 : gameType === 1 ? 6 : 2;
+        if (!playerTrans || lastMove === undefined) return Math.floor(Math.random() * size);
+        const counts = playerTrans[lastMove]!;
+        const total = counts.reduce((a, b) => a + b, 0);
+        if (total === 0) return Math.floor(Math.random() * size);
+        let predictedMove = 0;
+        for (let i = 1; i < size; i++) {
+            if (counts[i]! > counts[predictedMove]!) predictedMove = i;
+        }
+        // Counter-strategies per game type
+        if (gameType === 0) return (predictedMove + 1) % 3; // RPS: counter predicted move
+        if (gameType === 1) return Math.random() > 0.3 ? 5 : Math.floor(Math.random() * 6); // Dice: favor 6
+        return Math.random() > 0.5 ? predictedMove : 1 - predictedMove; // Coinflip: adaptive
     }
-    // Game type 2 = Coin flip (0=heads, 1=tails)
-    return Math.floor(Math.random() * 2);
 }
+
+const model = new OpponentModel();
+
 
 
 // x402 Middleware Helper
