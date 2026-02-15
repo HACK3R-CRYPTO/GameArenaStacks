@@ -58,6 +58,7 @@ const GAME_TYPES = [
     { id: 0, label: 'Rock Paper Scissors', icon: '✊' },
     { id: 1, label: 'Dice Roll', icon: '🎲' },
     { id: 2, label: 'Coin Flip', icon: '🪙' },
+    { id: 3, label: 'Tic Tac Toe', icon: '❌', disabled: true },
 ];
 
 const getMoveData = (gameType, move) => {
@@ -100,6 +101,7 @@ const ArenaGame = ({ userSession, userData }) => {
     const [pendingTxs, setPendingTxs] = useState({}); // { [matchId]: { type: 'user'|'agent', txId: string } }
     const [agentOnline, setAgentOnline] = useState(true);
     const [showHelp, setShowHelp] = useState(false);
+    const [activeTab, setActiveTab] = useState('live'); // 'live' or 'social'
 
 
 
@@ -146,8 +148,8 @@ const ArenaGame = ({ userSession, userData }) => {
             setMatchCount(count);
 
             if (count > 0) {
-                // Fetch last 20 matches in parallel for global feed
-                const limit = 20;
+                // Fetch last 30 matches in parallel for global feed
+                const limit = 30;
                 const start = count - 1;
                 const end = Math.max(0, count - limit);
 
@@ -504,19 +506,27 @@ const ArenaGame = ({ userSession, userData }) => {
                             </p>
 
                             {/* Game Selection */}
-                            <div className="grid grid-cols-3 gap-4 mb-6">
+                            <div className="grid grid-cols-4 gap-4 mb-6">
                                 {GAME_TYPES.map(g => (
                                     <button
                                         key={g.id}
-                                        onClick={() => setSelectedGameType(g.id)}
-                                        className={`p-6 rounded-sm border-2 transition-all group flex flex-col items-center gap-3 ${selectedGameType === g.id
+                                        onClick={() => !g.disabled && setSelectedGameType(g.id)}
+                                        disabled={g.disabled}
+                                        className={`p-4 rounded-sm border-2 transition-all group flex flex-col items-center gap-2 relative overflow-hidden ${selectedGameType === g.id
                                             ? 'bg-purple-950/30 border-purple-500 ring-4 ring-purple-500/10'
-                                            : 'bg-black border-white/5 hover:border-white/20'
+                                            : g.disabled
+                                                ? 'bg-black/40 border-white/5 opacity-50 cursor-not-allowed'
+                                                : 'bg-black border-white/5 hover:border-white/20'
                                             }`}
                                     >
-                                        <div className={`text-4xl transition-transform ${selectedGameType === g.id ? 'scale-110' : 'grayscale group-hover:grayscale-0'}`}>{g.icon}</div>
-                                        <div className={`text-[10px] uppercase font-black tracking-widest ${selectedGameType === g.id ? 'text-white' : 'text-gray-600'}`}>
-                                            {g.label.replace(' ', '-').replace(' ', '-')}
+                                        {g.disabled && (
+                                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10 backdrop-blur-[1px]">
+                                                <span className="text-[8px] font-black uppercase text-white bg-purple-600 px-2 py-0.5 rounded-sm transform -rotate-12 shadow-lg">COMING_SOON</span>
+                                            </div>
+                                        )}
+                                        <div className={`text-3xl transition-transform ${selectedGameType === g.id ? 'scale-110' : 'grayscale group-hover:grayscale-0'}`}>{g.icon}</div>
+                                        <div className={`text-[8px] uppercase font-black tracking-widest ${selectedGameType === g.id ? 'text-white' : 'text-gray-600'}`}>
+                                            {g.label.replace(/ /g, '-')}
                                         </div>
                                     </button>
                                 ))}
@@ -668,11 +678,31 @@ const ArenaGame = ({ userSession, userData }) => {
                                 ON_CHAIN_EVENTS
                             </h3>
                             <div className="flex gap-3 text-[8px] font-black text-gray-600 uppercase">
-                                <span className="text-purple-500 border-b border-purple-500">LIVE_HISTORY</span>
-                                <span className="hover:text-gray-400 cursor-pointer">HALL_OF_FAME</span>
+                                <span
+                                    onClick={() => setActiveTab('live')}
+                                    className={`cursor-pointer transition-colors ${activeTab === 'live' ? 'text-purple-500 border-b border-purple-500' : 'hover:text-gray-400'}`}
+                                >
+                                    LIVE_HISTORY
+                                </span>
+                                <span
+                                    onClick={() => setActiveTab('social')}
+                                    className={`cursor-pointer transition-colors ${activeTab === 'social' ? 'text-purple-500 border-b border-purple-500' : 'hover:text-gray-400'}`}
+                                >
+                                    SOCIAL_FEED
+                                </span>
                             </div>
                         </div>
-                        <div className="p-4 space-y-3 overflow-y-auto custom-scrollbar grow">
+                        <div className="p-4 space-y-3 overflow-y-auto custom-scrollbar grow relative">
+                            {activeTab === 'social' ? (
+                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm z-10">
+                                    <div className="text-4xl mb-4 opacity-50">🚧</div>
+                                    <h3 className="text-xl font-black text-purple-500 uppercase tracking-widest mb-2">COMING_SOON</h3>
+                                    <p className="text-[10px] text-gray-500 max-w-[200px] text-center leading-relaxed">
+                                        Social features, player profiles, and global chat are currently under development.
+                                    </p>
+                                </div>
+                            ) : null}
+
                             {matches.length === 0 ? (
                                 <div className="h-full py-12 flex items-center justify-center text-[10px] text-gray-700 italic font-bold uppercase tracking-widest">
                                     SYNCHRONIZING_BLOCKCHAIN...
