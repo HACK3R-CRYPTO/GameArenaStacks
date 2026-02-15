@@ -77,4 +77,9 @@ plan:
       emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
       path: contracts/arena-platform.clar
       clarity-version: 2
+    - transaction-type: emulated-contract-publish
+      contract-name: arena-platform-v2
+      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      path: contracts/arena-platform.clar
+      clarity-version: 2
     epoch: '2.5'

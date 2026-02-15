@@ -41,11 +41,11 @@ function App() {
       )}
 
       <Router>
-        <div className="min-h-screen relative bg-[#050505] text-gray-200 selection:bg-purple-500/30">
+        <div className="h-screen relative bg-[#050505] text-gray-200 selection:bg-purple-500/30 overflow-hidden flex flex-col">
           <Navigation userSession={userSession} userData={userData} setUserData={setUserData} />
 
-          <div className="relative z-10 pt-24 px-4 pb-12 max-w-[1000px] mx-auto">
-            <div className={`${showSplash ? 'blur-sm opacity-50 grayscale' : 'blur-0 opacity-100 grayscale-0'} transition-all duration-1000`}>
+          <div className="relative z-10 pt-16 grow overflow-hidden">
+            <div className={`h-full ${showSplash ? 'blur-sm opacity-50 grayscale' : 'blur-0 opacity-100 grayscale-0'} transition-all duration-1000`}>
               <Routes>
                 <Route path="/" element={<ArenaGame userSession={userSession} userData={userData} />} />
                 <Route path="*" element={<Navigate to="/" replace />} />

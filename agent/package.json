@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "tsx src/ArenaAgent.ts",
-    "dev": "nodemon --exec tsx src/ArenaAgent.ts"
+    "dev": "nodemon",
+    "build": "tsc",
+    "preview": "node dist/ArenaAgent.js"
   },
   "dependencies": {
     "@stacks/transactions": "^6.13.0",

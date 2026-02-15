@@ -19,7 +19,7 @@ const LandingOverlay = ({ onEnter }) => {
     }, []);
 
     return (
-        <div className="fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center p-4 font-mono text-gray-300">
+        <div className="fixed inset-0 z-50 bg-[#050505] flex flex-col items-center justify-center p-4 font-mono text-gray-300">
             <div className="max-w-2xl w-full border border-white/10 p-8 rounded-lg bg-black/50 backdrop-blur shadow-[0_0_50px_rgba(139,92,246,0.1)]">
                 <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
                     <span className="text-xs text-gray-600">TERMINAL_V.3.0.1</span>
@@ -39,7 +39,7 @@ const LandingOverlay = ({ onEnter }) => {
                     <div className="text-6xl mb-4 animate-bounce">
                         🦞
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+                    <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tighter bg-clip-text text-transparent bg-linear-to-r from-purple-400 to-pink-600">
                         ARENA_CHAMPION
                     </h1>
                     <p className="text-gray-400 mb-8 max-w-lg">
@@ -56,14 +56,6 @@ const LandingOverlay = ({ onEnter }) => {
                         </button>
 
                         <div className="flex gap-4 justify-center text-xs text-gray-500">
-                            <a
-                                href="/ARENA_SKILL.md"
-                                target="_blank"
-                                className="hover:text-purple-400 underline underline-offset-4 decoration-white/20 hover:decoration-purple-400"
-                            >
-                                READ_SKILL_DOCS
-                            </a>
-                            <span>|</span>
                             <a
                                 href="https://www.stacks.co"
                                 target="_blank"

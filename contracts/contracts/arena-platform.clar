@@ -202,6 +202,10 @@
 
 ;; Read Only Functions
 
+(define-read-only (get-match-count)
+  (var-get match-counter)
+)
+
 (define-read-only (get-match-details (match-id uint))
   (map-get? matches match-id)
 )

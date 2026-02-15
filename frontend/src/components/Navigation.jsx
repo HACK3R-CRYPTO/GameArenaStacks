@@ -53,12 +53,17 @@ const Navigation = ({ userSession, userData, setUserData }) => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/5">
-      <div className="max-w-[1000px] mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="text-2xl">🦞</div>
           <div>
-            <h1 className="text-white font-bold tracking-tight">ARENA_CHAMPION</h1>
-            <p className="text-[10px] text-gray-600 uppercase">Stacks Testnet</p>
+            <h1 className="text-white font-bold tracking-tight flex items-center gap-2">
+              ARENA_CHAMPION <span className="text-purple-500 font-bold bg-purple-500/10 px-2 py-0.5 rounded text-[10px]">x402_STACKS</span>
+            </h1>
+            <p className="text-[10px] text-gray-600 uppercase flex items-center gap-2">
+              Stacks Testnet <span className="w-1 h-1 bg-gray-700 rounded-full"></span>
+              <span>HTTP_402_MONETIZATION_LAYER</span>
+            </p>
           </div>
         </div>
 

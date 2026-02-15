@@ -1,110 +1,55 @@
-# TournamentChain Frontend
+# GameArena Stacks: Cyberpunk Gaming Interface 🎮
 
-React frontend for TournamentChain. Connects players to tournaments. Runs Wave Defense game. Visualizes on-chain data.
+The GameArena Stacks frontend is a high-performance web interface designed for the next generation of autonomous gaming. It provides a seamless bridge between human players and AI agents through the Stacks blockchain and the **x402 protocol**.
 
-## What This Frontend Does
+## ✨ Key Features
 
-You connect your wallet. You browse tournaments. You mint assets. You play the Wave Defense game directly in the browser. You track your leaderboard status in real-time.
+- **Stacks Wallet Integration**: Full support for Leather, Xverse, and Asigna wallets via `@stacks/connect`.
+- **x402 Automated Payments**: Built-in client to handle HTTP 402 "Payment Required" flows, enabling automated machine-to-machine transactions.
+- **Real-Time Match Feed**: Live updates on global matches and personal gameplay history.
+- **Cyberpunk Aesthetic**: A premium, high-fidelity UI built for an immersive arcade experience.
+- **Fair Play Enforcement**: The frontend manages move commitments to ensure transparency across all game types (RPS, Dice, Coin Flip).
 
-## Prerequisites
+## 🛠️ Technical Stack
 
-Install Node.js 18 or higher. Install npm. Have a browser wallet (MetaMask) or use Social Login.
+- **Framework**: React 19 + Vite.
+- **Styling**: Tailwind CSS 4.
+- **State Management**: React Hooks + local state persistence.
+- **Blockchain Connectivity**: `stacks-js` (v6) + `@stacks/connect`.
+- **Monetization**: `x402-stacks` client for intercepting payment requests.
 
-## Installation
+## 🚀 Installation & Setup
 
-Navigate to frontend directory:
-
-```bash
-cd TournamentChain/frontend
-```
-
-Install dependencies:
-
+1. **Clone & Install**:
 ```bash
 npm install
 ```
 
-Create `.env` file:
-
-```env
-VITE_PROJECT_ID=your_walletconnect_project_id
-VITE_WEB3AUTH_CLIENT_ID=your_web3auth_client_id
+2. **Configure Environment**:
+Create a `.env` file with the following variables:
+```bash
+VITE_NETWORK=testnet
+VITE_ARENA_CONTRACT=ST3V7NY32G2T67PVPBP3WVC1B228D7N2MCCAWW5F9.arena-platform-v2
+VITE_AGENT_API_URL=http://localhost:3000
 ```
 
-## Development
-
-Start development server:
-
+3. **Run Development Server**:
 ```bash
 npm run dev
 ```
 
-Server runs on http://localhost:5173
-
-## Build
-
-Build for production:
-
-```bash
-npm run build
-```
-
-Preview build:
-
-```bash
-npm run preview
-```
-
-## Key Components
-
-### Wave Defense Game
-Located in `src/pages/WaveDefenseGame.jsx`. A Phaser-based survival shooter. Runs in the browser. Interacts with `GameAssets` to load your NFT skins and weapons.
-
-### Tournament Browser
-Located in `src/pages/TournamentBrowser.jsx`. Fetches active tournaments from `TournamentPlatform`. Filters by entry fee and status.
-
-### Profile & Inventory
-Located in `src/pages/Profile.jsx`. Displays your Gold/Diamond balance. Shows your NFT assets. Allows minting of test tokens.
-
-### Leaderboard
-Located in `src/pages/Leaderboard.jsx`. Fetches global rankings from `ArcadePlatform`. Real-time sorting and display.
-
-## Configuration
-
-Contract addresses are stored in `src/config/contracts.js`. Update these after redeploying contracts.
-
-```javascript
-export const CONTRACT_ADDRESSES = {
-  TOURNAMENT_PLATFORM: '0x14b2303f4eb388e2842e61f1e3b88bcadee3cc73',
-  GAME_ASSETS: '0xa1dbb68470cce59218e8495f5350ffc8c8e36110',
-  GOLD_TOKEN: '0x0bd3180bd740e8fb560329ea42f46f65aa5b242d',
-  DIAMOND_TOKEN: '0xc6d677f0fcb8343ee09063b6849aa40e1fc99bc5',
-  ARCADE_PLATFORM: '0x214124ae23b415b3AEA3bb9e260A56dc022bAf04',
-  WINNER_BADGE: '0xb3e19d1215423abadb0a9105c61618aec6b02be6',
-  GAME_LOTTERY: '0xd06fce565798942949ae735f5e588fbf9e96afda'
-};
-```
-
-## Project Structure
+## 🏗️ Project Architecture
 
 ```
 frontend/
 ├── src/
-│   ├── assets/         # Game assets (sprites, sounds)
-│   ├── components/     # UI Components
-│   ├── config/         # Contract addresses & ABIs
-│   ├── context/        # Auth & State context
-│   ├── pages/          # Route pages
-│   └── App.jsx         # Main entry point
-├── public/             # Static files
-├── index.html
-├── package.json
-└── README.md
+│   ├── components/     # High-fidelity UI components
+│   ├── pages/          # Core gameplay views (ArenaGame.jsx)
+│   ├── config/         # Multi-node network configuration
+│   └── App.jsx         # Main application routing
+└── public/             # Optimized game assets
 ```
 
-## Support
+## 🔒 Security: post-conditions
 
-For issues or questions:
-- **Wagmi Docs**: https://wagmi.sh
-- **Phaser Docs**: https://phaser.io
-- **Vite Docs**: https://vitejs.dev
+The frontend implements strict **Stacks post-conditions** for every transaction. This ensures that the smart contract can ONLY take the specified wager amount from your wallet, providing a "Deny" mode fallback that prevents unauthorized asset transfers.

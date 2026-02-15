@@ -1,114 +1,71 @@
-# GameArena Stacks
+# GameArena Stacks: x402-Monetized Autonomous Gaming 🚀
 
-A decentralized gaming tournament platform built on Stacks blockchain, enabling AI agents and players to compete in 1v1 matches with STX wagers.
+GameArena Stacks is a decentralized gaming platform that bridges autonomous AI agents and human players through the **x402 payment protocol** on the Stacks blockchain. It enables high-stakes, 1v1 matches with automated payouts, strategic AI modeling, and full game transparency.
 
-## Project Structure
+## 🏗️ System Architecture
 
-```
-GameArenaStacks/
-├── contracts/          # Clarity smart contracts
-│   ├── contracts/
-│   │   ├── arena-platform.clar    # Main 1v1 wagering platform
-│   │   ├── agent-registry.clar    # AI agent identity registry
-│   │   └── traits.clar            # Contract traits
-│   ├── tests/                     # Unit tests (Vitest + Clarinet SDK)
-│   └── Clarinet.toml             # Clarinet project manifest
-├── agent/             # AI agent backend (Node.js)
-└── frontend/          # Web interface (Next.js)
-```
+The following diagram illustrates the interaction between the human player, the autonomous AI agent, and the Stacks blockchain.
 
-## Smart Contracts
-
-### Arena Platform (`arena-platform.clar`)
-- **Match Management**: Propose, accept, and track 1v1 matches
-- **Wagering System**: STX-based betting with platform fees (2%)
-- **Game Types**: Rock-Paper-Scissors (extensible to other games)
-- **Match Resolution**: Owner-controlled resolution with prize distribution
-
-### Agent Registry (`agent-registry.clar`)
-- **Agent Identity**: On-chain registry for AI agents (inspired by EIP-8004)
-- **Agent Metadata**: Name, model, description, creator, and status tracking
-
-## Testing
-
-All contracts include comprehensive unit tests using Vitest and the Clarinet SDK.
-
-```bash
-cd contracts
-npm install
-npm test                # Run all tests
-npm run test:report     # Generate coverage and cost reports
+```mermaid
+graph TB
+    subgraph Frontend ["Frontend (React/Stacks.js)"]
+        A[User UI] --> B[Stacks Connect]
+        A --> C[x402 Client]
+    end
+    
+    subgraph Agent ["AI Agent (Node.js/x402)"]
+        D[Express Server] --> E[x402 Middleware]
+        D --> F[Markov AI Strategy]
+    end
+    
+    subgraph Blockchain ["Stacks Blockchain (Clarity)"]
+        G[arena-platform.clar]
+        H[agent-registry.clar]
+    end
+    
+    B -- "Propose/Move" --> G
+    C -- "HTTP 402 Handshake" --> E
+    E -- "Verify & Commit" --> G
+    F -- "Strategic Move" --> G
+    
+    style G fill:#9333ea,stroke:#f0abfc,stroke-width:2px
+    style H fill:#9333ea,stroke:#f0abfc,stroke-width:2px
+    style Blockchain fill:#1e1b4b,color:#fff
 ```
 
-### Test Coverage
-- ✅ Match proposal and acceptance
-- ✅ Player move execution
-- ✅ Match resolution and prize distribution
-- ✅ Authorization checks
-- ✅ Agent registration and retrieval
+## 📁 Project Modules
 
-## Development
+For detailed technical specifications and setup instructions, please visit the sub-folder documentation:
 
-### Prerequisites
-- [Clarinet](https://github.com/hirosystems/clarinet) - Clarity development tool
-- Node.js 18+ - For testing and development
-- npm or yarn - Package management
+- **[📜 Smart Contracts](./contracts/README.md)**: Clarity contracts for match logic, wagering, and agent identity.
+- **[🤖 AI Agent](./agent/README.md)**: Autonomous game participant powered by Markov Chains and x402 monetization.
+- **[🎮 Frontend Interface](./frontend/README.md)**: High-fidelity Cyberpunk UI with Stacks.js and x402 client integration.
 
-### Setup
+## ✨ Hackathon Highlights: x402 Integration
 
-1. **Install dependencies:**
-```bash
-cd contracts
-npm install
-```
+GameArena Stacks implement the **x402-stacks protocol** to enable machine-to-machine payments:
 
-2. **Validate contracts:**
-```bash
-clarinet check
-```
+- **Automated Handshakes**: The agent requests dynamic micro-payments (HTTP 402) for match acceptance and move execution.
+- **Protocol Enforcement**: Transactions are verified on-chain before the agent commits its signed moves.
+- **Fair Play Architecture**: The agent strictly waits for the human player's move to be confirmed on-chain to eliminate "front-running" or move leakage.
 
-3. **Run tests:**
-```bash
-npm test
-```
+## 🕹️ Game Universe
 
-4. **Format contracts:**
-```bash
-clarinet format --in-place
-```
+GameArena supports three distinct game types with adaptive AI counter-strategies:
+1.  **Rock-Paper-Scissors**: The classic battle of intuition.
+2.  **Dice Roll**: A high-stakes risk game (Higher number wins).
+3.  **Coin Flip**: A prediction-based challenge (Heads/Tails).
 
-## Contract Deployment
+## 🚀 Quick Start
 
-Contracts are configured for deployment on:
-- **Devnet**: Local testing environment
-- **Testnet**: Stacks testnet
-- **Mainnet**: Stacks mainnet
+1.  **Start Agent**: `cd agent && npm install && npm run dev`
+2.  **Start Frontend**: `cd frontend && npm install && npm run dev`
+3.  **Run Tests**: `cd contracts && clarinet check && npm test`
 
-Configuration is managed in `contracts/Clarinet.toml` and `contracts/settings/*.toml`.
+## 🔒 Security & Reliability
 
-## Features
+- **Post-Conditions**: Every transaction is protected by Stacks post-conditions, ensuring trustless asset transfers.
+- **Node Rotation**: Backend and Frontend feature automatic rotation across multiple Stacks RPC nodes to ensure high availability.
 
-- 🎮 **1v1 Wagering**: Players can propose and accept matches with STX wagers
-- 🤖 **AI Agent Support**: On-chain identity registry for AI participants
-- 💰 **Fair Prize Distribution**: Automated prize distribution with platform fees
-- 🔒 **Secure Authorization**: Owner-controlled match resolution
-- 📊 **Comprehensive Testing**: Full unit test coverage with cost analysis
-
-## Tech Stack
-
-- **Blockchain**: Stacks (Clarity 2.5)
-- **Testing**: Vitest + Clarinet SDK
-- **Development**: Clarinet CLI
-- **Smart Contracts**: Clarity
-
-## License
-
-MIT
-
-## Contributing
-
-Contributions are welcome! Please ensure all tests pass before submitting PRs.
-
-```bash
-npm test
-```
+---
+*Built for the x402 Stacks Hackathon.*
