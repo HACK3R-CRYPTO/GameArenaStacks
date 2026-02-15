@@ -18,6 +18,8 @@ const api = axios.create({ baseURL: AGENT_API_URL });
 
 const GAME_TYPES = [
     { id: 0, label: 'Rock Paper Scissors', icon: '✊' },
+    { id: 1, label: 'Dice Roll', icon: '🎲' },
+    { id: 3, label: 'Coin Flip', icon: '🪙' },
 ];
 
 const ArenaGame = ({ userSession, userData }) => {
@@ -64,18 +66,26 @@ const ArenaGame = ({ userSession, userData }) => {
             ];
 
             // Call propose-match function
-            const result = await openContractCall('stx_callContract', {
-                contract: ARENA_CONTRACT,
+            await openContractCall({
+                contractAddress: DEPLOYER_ADDRESS,
+                contractName: 'arena-platform',
                 functionName: 'propose-match',
                 functionArgs: [
                     Cl.none(), // opponent (none for open match)
                     Cl.uint(selectedGameType), // game-type
                     Cl.uint(wager) // wager in microSTX
                 ],
-                network: 'testnet',
+                network,
                 postConditions,
-                postConditionMode: 'deny',
-                sponsored: false
+                postConditionMode: 1, // Deny mode
+                onFinish: (data) => {
+                    console.log('Match proposed:', data);
+                    toast.success('Match proposed! TX: ' + data.txId, { id: toastId });
+                    setTimeout(() => handleChallengeAgent(data.txId), 2000);
+                },
+                onCancel: () => {
+                    toast.error('Transaction cancelled', { id: toastId });
+                }
             });
 
             toast.success('Match proposed! Waiting for agent to accept...', { id: toastId });

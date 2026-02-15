@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const LandingOverlay = ({ onEnter }) => {
     const [text, setText] = useState('');
-    const fullText = ">> SYSTEM_INITIALIZING...\n>> CONNECTING_TO_MONAD_NETWORK...\n>> ESTABLISHING_SECURE_LINK...\n>> ACCESSING_ARENA_PROTOCOL...";
+    const fullText = ">> SYSTEM_INITIALIZING...\n>> CONNECTING_TO_STACKS_TESTNET...\n>> ESTABLISHING_SECURE_LINK...\n>> ACCESSING_ARENA_PROTOCOL...";
     const [showButton, setShowButton] = useState(false);
 
     useEffect(() => {
