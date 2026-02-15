@@ -1,7 +1,6 @@
 # Post-Conditions and Asset Protection
 
 > **Relevant source files**
-> * [PROJECT_SUMMARY.md](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md)
 > * [README.md](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md)
 > * [frontend/src/components/Navigation.jsx](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/frontend/src/components/Navigation.jsx)
 > * [frontend/src/pages/ArenaGame.jsx](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/frontend/src/pages/ArenaGame.jsx)
@@ -27,7 +26,6 @@ This eliminates trust assumptions—users can verify their maximum exposure befo
 
 **Sources**: [README.md L79-L82](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L79-L82)
 
- [PROJECT_SUMMARY.md L68-L70](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L68-L70)
 
 ---
 
@@ -276,7 +274,6 @@ The post-condition display is generated automatically by the wallet from the `po
 
 **Sources**: [frontend/src/pages/ArenaGame.jsx L317-L339](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/frontend/src/pages/ArenaGame.jsx#L317-L339)
 
- [PROJECT_SUMMARY.md L50](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L50-L50)
 
 ---
 
@@ -374,7 +371,6 @@ Post-conditions provide **cryptographic enforcement** at the network layer, inde
 
 **Sources**: [README.md L81](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L81-L81)
 
- [PROJECT_SUMMARY.md L50-L51](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L50-L51)
 
 ---
 
@@ -459,4 +455,3 @@ This architecture demonstrates **defense in depth**—even if multiple system co
 
  [README.md L79-L82](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L79-L82)
 
- [PROJECT_SUMMARY.md L68-L70](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L68-L70)

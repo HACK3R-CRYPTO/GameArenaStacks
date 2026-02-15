@@ -1,7 +1,6 @@
 # arena-platform-v2 Contract
 
 > **Relevant source files**
-> * [PROJECT_SUMMARY.md](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md)
 > * [README.md](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md)
 > * [agent/.env.example](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/agent/.env.example)
 > * [agent/src/ArenaAgent.ts](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/agent/src/ArenaAgent.ts)
@@ -34,7 +33,6 @@ The contract serves as the immutable game engine for 1v1 wagered matches, enforc
 
 **Sources**: [agent/src/ArenaAgent.ts L45-L46](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/agent/src/ArenaAgent.ts#L45-L46)
 
- [PROJECT_SUMMARY.md L11](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L11-L11)
 
  [agent/.env.example L8-L9](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/agent/.env.example#L8-L9)
 
@@ -389,7 +387,6 @@ Example -.-> ExWinner
 Example -.-> ExPlatform
 ```
 
-**Sources**: [PROJECT_SUMMARY.md L43](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L43-L43)
 
  [README.md L40-L43](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L40-L43)
 
@@ -403,7 +400,6 @@ The frontend application enforces post-conditions to protect users during match 
 
 For detailed post-condition implementation, see [Post-Conditions and Asset Protection](/HACK3R-CRYPTO/GameArenaStacks/6.2-post-conditions-and-asset-protection).
 
-**Sources**: [PROJECT_SUMMARY.md L67-L70](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L67-L70)
 
 ---
 
@@ -600,7 +596,6 @@ For deployment instructions, see [Contract Deployment](/HACK3R-CRYPTO/GameArenaS
 
 **Sources**: [README.md L40](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L40-L40)
 
- [PROJECT_SUMMARY.md L81](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L81-L81)
 
  [agent/.env.example L8-L9](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/agent/.env.example#L8-L9)
 
@@ -624,6 +619,5 @@ The contract serves as the immutable foundation for the GameArenaStacks ecosyste
 
 **Sources**: [README.md L1-L86](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L1-L86)
 
- [PROJECT_SUMMARY.md L1-L142](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L1-L142)
 
  [agent/src/ArenaAgent.ts L1-L482](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/agent/src/ArenaAgent.ts#L1-L482)

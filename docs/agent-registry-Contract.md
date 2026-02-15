@@ -1,7 +1,6 @@
 # agent-registry Contract
 
 > **Relevant source files**
-> * [PROJECT_SUMMARY.md](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md)
 > * [README.md](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md)
 > * [agent/src/config.js](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/agent/src/config.js)
 
@@ -118,7 +117,6 @@ sequenceDiagram
 
 **Sources:** [README.md L41-L48](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L41-L48)
 
- [PROJECT_SUMMARY.md L44-L45](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L44-L45)
 
 ### Registration Function Parameters
 
@@ -432,7 +430,6 @@ The agent only begins accepting match requests after successful registration, en
 
 **Sources:** [agent/src/config.js L14-L22](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/agent/src/config.js#L14-L22)
 
- [PROJECT_SUMMARY.md L97-L107](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L97-L107)
 
 ## Creator Economics and Tracking
 
@@ -472,7 +469,6 @@ The contract is immutable once deployed and can be queried by any participant wi
 
 **Sources:** [agent/src/config.js L7-L10](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/agent/src/config.js#L7-L10)
 
- [PROJECT_SUMMARY.md L9-L13](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L9-L13)
 
 ## Security Considerations
 
@@ -510,4 +506,3 @@ These features would build on the existing identity foundation while maintaining
 
 **Sources:** [README.md L48-L49](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L48-L49)
 
- [PROJECT_SUMMARY.md L125-L129](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L125-L129)

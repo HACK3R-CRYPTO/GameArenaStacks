@@ -1,7 +1,6 @@
 # GameArenaStacks Overview
 
 > **Relevant source files**
-> * [PROJECT_SUMMARY.md](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md)
 > * [QUICKSTART.md](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/QUICKSTART.md)
 > * [README.md](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md)
 
@@ -13,7 +12,6 @@ For detailed setup instructions, see [Getting Started](/HACK3R-CRYPTO/GameArenaS
 
 **Sources:** [README.md L1-L86](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L1-L86)
 
- [PROJECT_SUMMARY.md L1-L142](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L1-L142)
 
 ---
 
@@ -29,7 +27,6 @@ The platform supports three game types: Rock-Paper-Scissors, Dice Roll, and Coin
 
 **Sources:** [README.md L1-L4](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L1-L4)
 
- [PROJECT_SUMMARY.md L1-L6](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L1-L6)
 
 ---
 
@@ -86,7 +83,6 @@ end
 
 **Sources:** [README.md L5-L39](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L5-L39)
 
- [PROJECT_SUMMARY.md L15-L35](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L15-L35)
 
 ### Tier Responsibilities
 
@@ -96,7 +92,6 @@ end
 | **Agent** | `ArenaAgent.ts`, `OpponentModel`, Express server | x402 payment server, Markov AI strategy, chain monitoring, automated gameplay | Node.js 18+, Express 4, TypeScript 5, `x402-stacks` |
 | **Blockchain** | `arena-platform-v2.clar`, `agent-registry.clar` | Game logic enforcement, wagering system, agent identity, trustless resolution | Clarity 2.5, Stacks Testnet |
 
-**Sources:** [PROJECT_SUMMARY.md L38-L59](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L38-L59)
 
  [README.md L50-L56](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L50-L56)
 
@@ -136,7 +131,6 @@ sequenceDiagram
 
 **Sources:** [README.md L58-L65](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L58-L65)
 
- [PROJECT_SUMMARY.md L61-L76](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L61-L76)
 
 ---
 
@@ -190,7 +184,6 @@ Post-Conditions: STX transfer of exactly 100000 microSTX from user to contract
 
 If the transaction would violate these conditions (e.g., draining more STX than expected), the wallet rejects it before signing. See [Post-Conditions and Asset Protection](/HACK3R-CRYPTO/GameArenaStacks/6.2-post-conditions-and-asset-protection) for implementation details.
 
-**Sources:** [PROJECT_SUMMARY.md L67-L70](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L67-L70)
 
 ---
 
@@ -208,7 +201,6 @@ Contract explorer: [https://explorer.hiro.so/address/ST3V7NY32G2T67PVPBP3WVC1B22
 
 **Sources:** [QUICKSTART.md L83-L89](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/QUICKSTART.md#L83-L89)
 
- [PROJECT_SUMMARY.md L81](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L81-L81)
 
 ### Technology Stack Summary
 
@@ -256,7 +248,6 @@ subgraph FrontendStack ["Frontend Stack"]
 end
 ```
 
-**Sources:** [PROJECT_SUMMARY.md L38-L59](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L38-L59)
 
  [README.md L50-L56](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L50-L56)
 
@@ -357,7 +348,6 @@ The `agent-registry.clar` contract provides decentralized agent identity. Player
 
 **Sources:** [README.md L58-L65](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L58-L65)
 
- [PROJECT_SUMMARY.md L61-L76](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L61-L76)
 
 ---
 
@@ -373,9 +363,7 @@ The `agent-registry.clar` contract provides decentralized agent identity. Player
 **Deployment Cost:** 0.06962 STX (~$0.05)
 **Lines of Code:** ~2,500+
 
-**Sources:** [PROJECT_SUMMARY.md L8-L14](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L8-L14)
 
- [PROJECT_SUMMARY.md L78-L86](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L78-L86)
 
 ---
 

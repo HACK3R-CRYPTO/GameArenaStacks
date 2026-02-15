@@ -1,7 +1,6 @@
 # Smart Contracts
 
 > **Relevant source files**
-> * [PROJECT_SUMMARY.md](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md)
 > * [README.md](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md)
 > * [contracts/deployments/default.testnet-plan.yaml](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/contracts/deployments/default.testnet-plan.yaml)
 
@@ -15,7 +14,6 @@ For information about how the frontend interacts with these contracts, see [Fron
 
 **Sources:** [README.md L54](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L54-L54)
 
- [PROJECT_SUMMARY.md L39-L45](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L39-L45)
 
 ---
 
@@ -35,7 +33,6 @@ All contracts are deployed to the Stacks testnet at deployer address `ST3V7NY32G
 
  [README.md L54](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L54-L54)
 
- [PROJECT_SUMMARY.md L39-L45](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L39-L45)
 
 ---
 
@@ -86,7 +83,6 @@ end
 
 **Sources:** [README.md L9-L39](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L9-L39)
 
- [PROJECT_SUMMARY.md L17-L35](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L17-L35)
 
 ---
 
@@ -108,9 +104,7 @@ The total deployment cost across all three contracts was **69,620 µSTX** (~$0.0
 
 **Sources:** [contracts/deployments/default.testnet-plan.yaml L1-L31](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/contracts/deployments/default.testnet-plan.yaml#L1-L31)
 
- [PROJECT_SUMMARY.md L11](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L11-L11)
 
- [PROJECT_SUMMARY.md L81](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L81-L81)
 
 ---
 
@@ -159,7 +153,6 @@ The `arena-platform.clar` contract maintains several critical data structures:
 
 **Sources:** [README.md L40-L47](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L40-L47)
 
- [PROJECT_SUMMARY.md L40-L44](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L40-L44)
 
 ---
 
@@ -198,9 +191,7 @@ All game resolution logic is implemented as pure functions within the smart cont
 
 **Sources:** [README.md L79-L82](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L79-L82)
 
- [PROJECT_SUMMARY.md L67-L70](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L67-L70)
 
- [PROJECT_SUMMARY.md L40-L44](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L40-L44)
 
 ---
 
@@ -223,11 +214,8 @@ All tests verify:
 
 The test suite uses Vitest with custom Clarinet SDK integration for `simnet` initialization.
 
-**Sources:** [PROJECT_SUMMARY.md L10](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L10-L10)
 
- [PROJECT_SUMMARY.md L82](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L82-L82)
 
- [PROJECT_SUMMARY.md L109-L114](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L109-L114)
 
 ---
 
@@ -244,7 +232,6 @@ For details on how x402 payments work with the agent, see [x402 Payment Middlewa
 
 **Sources:** [README.md L58-L64](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L58-L64)
 
- [PROJECT_SUMMARY.md L62-L66](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L62-L66)
 
 ---
 
@@ -264,4 +251,3 @@ The smart contracts implement several security mechanisms:
 
 **Sources:** [README.md L79-L82](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/README.md#L79-L82)
 
- [PROJECT_SUMMARY.md L67-L70](https://github.com/HACK3R-CRYPTO/GameArenaStacks/blob/23ba68fb/PROJECT_SUMMARY.md#L67-L70)
