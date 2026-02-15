@@ -1,35 +1,67 @@
 # GameArena Stacks: x402-Monetized Autonomous Gaming 🚀
 
-GameArena Stacks is a decentralized gaming platform that bridges autonomous AI agents and human players through the **x402 payment protocol** on the Stacks blockchain. It enables high-stakes, 1v1 matches with automated payouts, strategic AI modeling, and full game transparency.
+GameArenaStacks is a decentralized gaming platform that enables 1v1 wagering matches between human players and autonomous AI agents on the Stacks blockchain. The system implements three core innovations:
 
-## 🏗️ System Architecture
+1.  **x402 Monetization Protocol** - Autonomous agents charge micro-payments for their services using HTTP 402 status codes.
+2.  **Markov Chain AI** - Strategic opponent modeling that learns player patterns and generates counter-strategies.
+3.  **Trustless Execution** - Clarity smart contracts enforce immutable game rules with post-conditions protecting user assets.
+
+## 🏗️ Three-Tier Architecture
+
+GameArenaStacks implements a layered architecture where each tier has distinct responsibilities:
 
 ```mermaid
-graph TB
-    subgraph Frontend ["Frontend (React/Stacks.js)"]
-        A[User UI] --> B[Stacks Connect]
-        A --> C[x402 Client]
-    end
-    
-    subgraph Agent ["AI Agent (Node.js/x402)"]
-        D[Express Server] --> E[x402 Middleware]
-        D --> F[Markov AI Strategy]
-    end
-    
-    subgraph Blockchain ["Stacks Blockchain (Clarity)"]
-        G[arena-platform-v2.clar]
-        H[agent-registry.clar]
-    end
-    
-    B -- "Propose/Move" --> G
-    C -- "HTTP 402 Handshake" --> E
-    E -- "Verify & Commit" --> G
-    F -- "Strategic Move" --> G
-    
-    style G fill:#9333ea,stroke:#f0abfc,stroke-width:2px
-    style H fill:#9333ea,stroke:#f0abfc,stroke-width:2px
-    style Blockchain fill:#1e1b4b,color:#fff
+flowchart TD
+
+ArenaGame["ArenaGame.jsx<br>Match proposal & gameplay"]
+Navigation["Navigation.jsx<br>Wallet connection"]
+DocsModal["DocsModal.jsx<br>Documentation UI"]
+HallOfFame["Hall of Fame<br>Match results"]
+ExpressServer["Express HTTP Server<br>Port 3000"]
+x402Middleware["x402Middleware()<br>Payment verification"]
+OpponentModel["OpponentModel Class<br>Markov Chain AI"]
+monitorChain["monitorChain()<br>Background polling"]
+ArenaPlatform["arena-platform-v2.clar<br>Game logic & wagering"]
+AgentRegistry["agent-registry.clar<br>Agent identity"]
+TraitsContract["traits.clar<br>Game interfaces"]
+
+ArenaGame -.-> ExpressServer
+ArenaGame -.-> ArenaPlatform
+Navigation -.-> ArenaPlatform
+x402Middleware -.-> ArenaPlatform
+OpponentModel -.-> ArenaPlatform
+monitorChain -.-> ArenaPlatform
+
+subgraph Blockchain ["Tier 3: Blockchain (Stacks)"]
+    ArenaPlatform
+    AgentRegistry
+    TraitsContract
+    ArenaPlatform -.-> AgentRegistry
+    ArenaPlatform -.-> TraitsContract
+end
+
+subgraph Agent ["Tier 2: Agent (Node.js + Express)"]
+    ExpressServer
+    x402Middleware
+    OpponentModel
+    monitorChain
+end
+
+subgraph Frontend ["Tier 1: Frontend (React + Vite)"]
+    ArenaGame
+    Navigation
+    DocsModal
+    HallOfFame
+end
 ```
+
+### Tier Responsibilities
+
+| Tier | Components | Primary Responsibilities | Key Technologies |
+| --- | --- | --- | --- |
+| **Frontend** | `ArenaGame.jsx`, `Navigation.jsx` | User interface, wallet integration, x402 payment client | React 19, Vite 7, `@stacks/connect` |
+| **Agent** | `ArenaAgent.ts`, `OpponentModel` | x402 payment server, Markov AI strategy, chain monitoring | Node.js 18+, Express 4, `x402-stacks` |
+| **Blockchain** | `arena-platform-v2.clar`, `agent-registry.clar` | Game logic enforcement, wagering, agent identity | Clarity 2.5, Stacks Testnet |
 
 ## 📚 Documentation Portal
 
