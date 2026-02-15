@@ -697,55 +697,74 @@ const ArenaGame = ({ userSession, userData }) => {
                                     LIVE_HISTORY
                                 </span>
                                 <span
+                                    onClick={() => setActiveTab('hof')}
+                                    className={`cursor-pointer transition-colors ${activeTab === 'hof' ? 'text-purple-500 border-b border-purple-500' : 'hover:text-gray-400'}`}
+                                >
+                                    HALL_OF_FAME
+                                </span>
+                                <span
                                     onClick={() => setActiveTab('social')}
                                     className={`cursor-pointer transition-colors ${activeTab === 'social' ? 'text-purple-500 border-b border-purple-500' : 'hover:text-gray-400'}`}
                                 >
-                                    HALL_OF_FAME
+                                    SOCIAL_FEED
                                 </span>
                             </div>
                         </div>
                         <div className="p-4 space-y-3 overflow-y-auto custom-scrollbar grow relative">
                             {activeTab === 'social' ? (
+                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm z-10">
+                                    <div className="text-4xl mb-4 opacity-50">🚧</div>
+                                    <h3 className="text-xl font-black text-purple-500 uppercase tracking-widest mb-2">COMING_SOON</h3>
+                                    <p className="text-[10px] text-gray-500 max-w-[200px] text-center leading-relaxed">
+                                        Social features, player profiles, and global chat are currently under development.
+                                    </p>
+                                </div>
+                            ) : null}
+
+                            {activeTab === 'hof' ? (
                                 <div className="space-y-3">
                                     <div className="bg-purple-900/20 border border-purple-500/20 p-3 rounded-sm flex items-center gap-3 mb-4">
                                         <div className="text-2xl">🏆</div>
                                         <div>
                                             <h4 className="text-xs font-black text-purple-400 uppercase tracking-widest">HALL_OF_FAME</h4>
-                                            <p className="text-[10px] text-gray-400">Top recent payouts in the Arena.</p>
+                                            <p className="text-[10px] text-gray-400">Top ranked victories by payout.</p>
                                         </div>
                                     </div>
-                                    {matches.filter(m => m.status === 'Completed').length === 0 ? (
+                                    {matches.filter(m => m.status === 'Completed' && m.winner).length === 0 ? (
                                         <div className="text-center py-8 text-[10px] text-gray-600 font-bold uppercase tracking-widest">NO_CHAMPIONS_YET</div>
                                     ) : (
-                                        matches.filter(m => m.status === 'Completed').map(m => {
-                                            const isMe = userData?.profile?.stxAddress?.testnet === m.challenger || userData?.profile?.stxAddress?.testnet === m.opponent;
-                                            const winnerAddr = m.winner.value || m.winner;
-                                            const isChallengerWin = winnerAddr === m.challenger;
+                                        matches
+                                            .filter(m => m.status === 'Completed' && m.winner)
+                                            .sort((a, b) => b.wager - a.wager) // Sort by highest wager
+                                            .map((m, index) => {
+                                                const isMe = userData?.profile?.stxAddress?.testnet === m.challenger || userData?.profile?.stxAddress?.testnet === m.opponent;
+                                                const winnerAddr = m.winner.value || m.winner;
+                                                const isChallengerWin = winnerAddr === m.challenger;
 
-                                            return (
-                                                <div key={m.id} className="bg-white/5 border border-white/5 p-2 rounded-sm flex items-center justify-between group hover:border-purple-500/30 transition-all">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="text-xl opacity-80">{GAME_TYPES.find(gt => gt.id === m.gameType)?.icon || '🎮'}</div>
-                                                        <div>
-                                                            <div className="text-[10px] font-black text-white flex items-center gap-2">
-                                                                <span className="text-purple-400">#{m.id}</span>
-                                                                <span className="text-gray-500">WINNER:</span>
-                                                                <span className={isMe && winnerAddr === userData?.profile?.stxAddress?.testnet ? 'text-green-400' : 'text-gray-300'}>
-                                                                    {isMe && winnerAddr === userData?.profile?.stxAddress?.testnet ? 'YOU' : `${winnerAddr.slice(0, 4)}...${winnerAddr.slice(-4)}`}
-                                                                </span>
-                                                            </div>
-                                                            <div className="text-[8px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">
-                                                                {isChallengerWin ? 'CHALLENGER_VICTORY' : 'OPPONENT_VICTORY'}
+                                                return (
+                                                    <div key={m.id} className="bg-white/5 border border-white/5 p-2 rounded-sm flex items-center justify-between group hover:border-purple-500/30 transition-all">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="text-xs font-black text-yellow-500 w-4">#{index + 1}</div>
+                                                            <div className="text-xl opacity-80">{GAME_TYPES.find(gt => gt.id === m.gameType)?.icon || '🎮'}</div>
+                                                            <div>
+                                                                <div className="text-[10px] font-black text-white flex items-center gap-2">
+                                                                    <span className="text-purple-400">Match #{m.id}</span>
+                                                                    <span className={isMe && winnerAddr === userData?.profile?.stxAddress?.testnet ? 'text-green-400' : 'text-gray-300'}>
+                                                                        {isMe && winnerAddr === userData?.profile?.stxAddress?.testnet ? 'YOU' : `${winnerAddr.slice(0, 4)}...${winnerAddr.slice(-4)}`}
+                                                                    </span>
+                                                                </div>
+                                                                <div className="text-[8px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">
+                                                                    {isChallengerWin ? 'CHALLENGER_VICTORY' : 'OPPONENT_VICTORY'}
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <div className="text-right">
+                                                            <div className="text-[10px] font-black text-green-500">+{(m.wager * 1.96 / 1000000).toFixed(2)} STX</div>
+                                                            <div className="text-[7px] text-gray-600 font-bold uppercase tracking-tighter">PAYOUT_CONFIRMED</div>
+                                                        </div>
                                                     </div>
-                                                    <div className="text-right">
-                                                        <div className="text-[10px] font-black text-green-500">+{(m.wager * 1.96 / 1000000).toFixed(2)} STX</div>
-                                                        <div className="text-[7px] text-gray-600 font-bold uppercase tracking-tighter">PAYOUT_CONFIRMED</div>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })
+                                                );
+                                            })
                                     )}
                                 </div>
                             ) : null}
