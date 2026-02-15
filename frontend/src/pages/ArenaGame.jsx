@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Zap } from 'lucide-react';
 import { Cl, Pc } from '@stacks/transactions';
 import { StacksTestnet } from '@stacks/network';
-import { request } from '@stacks/connect';
+import { openContractCall } from '@stacks/connect';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
@@ -64,7 +64,7 @@ const ArenaGame = ({ userSession, userData }) => {
             ];
 
             // Call propose-match function
-            const result = await request('stx_callContract', {
+            const result = await openContractCall('stx_callContract', {
                 contract: ARENA_CONTRACT,
                 functionName: 'propose-match',
                 functionArgs: [

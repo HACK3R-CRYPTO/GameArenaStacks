@@ -1,26 +1,34 @@
 import { useState, useEffect } from 'react';
-import { connect, disconnect } from '@stacks/connect';
+import { showConnect } from '@stacks/connect';
 
 const Navigation = ({ userSession, userData, setUserData }) => {
   const [bns, setBns] = useState('');
 
   async function connectWallet() {
     try {
-      const connectionResponse = await connect();
-      const userDataResult = userSession.loadUserData();
-      setUserData(userDataResult);
+      showConnect({
+        appDetails: {
+          name: 'GameArena Stacks',
+          icon: window.location.origin + '/logo.png',
+        },
+        redirectTo: '/',
+        onFinish: () => {
+          const userDataResult = userSession.loadUserData();
+          setUserData(userDataResult);
 
-      // Try to fetch BNS name
-      const address = userDataResult.profile.stxAddress.testnet;
-      const bnsName = await getBns(address);
-      setBns(bnsName);
+          // Try to fetch BNS name
+          const address = userDataResult.profile.stxAddress.testnet;
+          getBns(address).then(setBns);
+        },
+        userSession,
+      });
     } catch (error) {
       console.error('Failed to connect wallet:', error);
     }
   }
 
   async function disconnectWallet() {
-    disconnect();
+    userSession.signUserOut();
     setUserData(null);
     setBns('');
   }
